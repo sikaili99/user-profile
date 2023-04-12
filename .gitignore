@@ -1,0 +1,13 @@
+.env
+venv
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+### DJANGO ###
+*.log
+*.pot
+*.pyc
+__pycache__/
+db.sqlite3
