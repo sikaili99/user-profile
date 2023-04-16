@@ -1,7 +1,14 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
+from accounts.forms import ProfileForm, SignInForm, SignUpForm
+from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import login, authenticate, logout
-from accounts.forms import SignInForm, SignUpForm
+from django.views.generic import UpdateView, DeleteView
+from django.views.generic.edit import FormMixin
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from django.contrib import messages
+from accounts.models import Profile
+from django.urls import reverse_lazy
 
 
 def signup(request):
@@ -42,3 +49,27 @@ def signin(request):
 def logout_view(request):
     logout(request)
     return redirect('accounts:login')
+
+
+class UserProfileDeailsView(LoginRequiredMixin, DeleteView):
+
+    model = Profile
+    template_name = 'profile/index.html'
+    fields = ['home_address', 'phone_number', 'location', 'picture']
+    context_object_name = 'profile'
+    success_url = reverse_lazy('accounts:profile')
+
+    def get_object(self, queryset=None):
+        return Profile.objects.get(user=self.request.user)
+
+
+class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView, FormMixin):
+    model = Profile
+    form_class = ProfileForm
+    template_name = 'profile/edit_profile.html'
+    success_url = reverse_lazy('accounts:profile')
+    success_message = "Profile updated successfully"
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
