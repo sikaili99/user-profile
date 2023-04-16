@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="map" style="height: 800px;"></div>
+<style>
+  #map {
+    width: 100%;
+    height: 800px;
+  }
+
+  .info-window {
+    max-width: 500px;
+    font-size: 14px;
+  }
+
+  .info-window h4 {
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .info-window p {
+    margin: 5px 0;
+  }
+</style>
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{api_key}}"></script>
+
+<script>
+  var map = new google.maps.Map(document.getElementById('map'), {
+    center: { lat: 51.505, lng: -0.09 },
+    zoom: 2
+  });
+
+  var locations = {{ locations| safe }};
+
+  for (var i = 0; i < locations.length; i++) {
+    var content = '<div>' +
+      '<img src="' + locations[i].picture + '" style="width: 100px;">' +
+      '<h4>' + locations[i].name + '</h4>' +
+      '<p>' + locations[i].address + '</p>' +
+      '<p>' + locations[i].phone + '</p>' +
+      '<p>' + locations[i].city + '</p>' +
+      '</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: content
+    });
+
+    var marker = new google.maps.Marker({
+      position: { lat: locations[i].lat, lng: locations[i].lng },
+      map: map,
+      title: locations[i].name
+    });
+
+    marker.addListener('click', function () {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+{% endblock %}
