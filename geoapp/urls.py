@@ -6,5 +6,6 @@ from django.contrib import admin
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', include('landpage.urls')),
     path('accounts/', include('accounts.urls'))
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

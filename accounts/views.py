@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from accounts.models import Profile
 from django.urls import reverse_lazy
+from django.conf import settings
 
 
 def signup(request):
@@ -73,3 +74,24 @@ class ProfileUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView, For
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+
+def map_view(request):
+    profiles = Profile.objects.all()
+    locations = []
+    for profile in profiles:
+        locations.append({
+            'name': profile.user.username,
+            'address': profile.home_address,
+            'city': profile.city,
+            'phone': profile.phone_number,
+            'first_name': profile.user.first_name,
+            'last_name': profile.user.last_name,
+            'lat': profile.location.y,
+            'lng': profile.location.x,
+        })
+    context = {
+        'locations': locations,
+        'api_key': settings.GOOGLE_MAPS_API_KEY
+    }
+    return render(request, 'profile/map.html', context)
