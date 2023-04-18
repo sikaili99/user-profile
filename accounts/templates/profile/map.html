@@ -32,6 +32,8 @@
   });
 
   var locations = {{ locations| safe }};
+  
+  var openedInfoWindow = null; // Variable to keep track of the currently opened info window
 
   for (var i = 0; i < locations.length; i++) {
     var content = '<div>' +
@@ -52,9 +54,21 @@
       title: locations[i].name
     });
 
-    marker.addListener('click', function () {
-      infowindow.open(map, marker);
-    });
+    marker.addListener('click', function (marker, infowindow) {
+      return function() {
+        if (openedInfoWindow) {
+          openedInfoWindow.close(); // Close previously opened info window
+        }
+        if (openedInfoWindow === infowindow) {
+          openedInfoWindow = null; // If clicked on the same marker, set openedInfoWindow to null
+        } else {
+          infowindow.open(map, marker);
+          openedInfoWindow = infowindow; // Update currently opened info window
+        }
+      }
+    }(marker, infowindow));
   }
+
+
 </script>
 {% endblock %}
