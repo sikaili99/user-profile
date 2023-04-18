@@ -2,7 +2,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from accounts.forms import ProfileForm, SignInForm, SignUpForm
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth import login, authenticate, logout
-from django.views.generic import UpdateView, DeleteView
+from django.views.generic import UpdateView, DetailView
 from django.views.generic.edit import FormMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -52,7 +52,7 @@ def logout_view(request):
     return redirect('accounts:login')
 
 
-class UserProfileDeailsView(LoginRequiredMixin, DeleteView):
+class UserProfileDeailsView(LoginRequiredMixin, DetailView):
 
     model = Profile
     template_name = 'profile/index.html'
@@ -83,6 +83,7 @@ def map_view(request):
         locations.append({
             'name': profile.user.username,
             'address': profile.home_address,
+            'picture_url': profile.get_picture_url,
             'city': profile.city,
             'phone': profile.phone_number,
             'first_name': profile.user.first_name,
