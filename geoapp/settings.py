@@ -68,6 +68,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'geoapp.wsgi.application'
+AUTH_USER_MODEL = 'accounts.CustomUser'
 
 
 # Database
