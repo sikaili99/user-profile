@@ -66,3 +66,15 @@ Then you can add staff users with the permission level as per your requirements.
 
 
 ## Screenshots
+
+![Screenshot from 2023-04-18 17-08-07](https://user-images.githubusercontent.com/33897492/232821984-808a7e62-4fef-4635-a109-ac826652801d.png)
+
+
+## Update location demo
+
+[Screencast from 04-18-2023 05:11:36 PM.webm](https://user-images.githubusercontent.com/33897492/232822605-0459ca76-2f61-4210-b7ca-e633d65e125c.webm)
+
+## Marker pop
+
+[Screencast from 04-18-2023 11:18:15 AM.webm](https://user-images.githubusercontent.com/33897492/232822266-7ac3ff5e-cf86-41d3-a9a8-10a2d3979d3a.webm)
+
