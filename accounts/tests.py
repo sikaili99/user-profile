@@ -1,6 +1,9 @@
 from django.test import Client, TestCase
+from django.contrib.gis.geos import Point
 from django.contrib.auth.models import User
 from django.urls import reverse
+
+from accounts.models import Profile
 
 
 class TestViews(TestCase):
@@ -29,6 +32,20 @@ class TestViews(TestCase):
             'password2': 'testpassword',
         })
         self.assertEquals(response.status_code, 302)
+
+        # Check if user profile is created through django signals on registration
+        self.assertTrue(Profile.objects.filter(
+            user__username='testuser').exists())
+
+        # Check if user profile has the correct data
+        profile = Profile.objects.get(user__username='testuser')
+        self.assertEqual(profile.user.username, 'testuser')
+        self.assertEqual(profile.home_address, '')
+        self.assertEqual(profile.phone_number, '')
+        # Compare x coordinate (efault)
+        self.assertEqual(profile.location.x, 1.0)
+        # Compare y coordinate (efault)
+        self.assertEqual(profile.location.y, 1.0)
 
     def test_login_post(self):
         """
