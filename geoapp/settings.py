@@ -86,6 +86,13 @@ DATABASES = {
 
 GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
+
+LOCATION_FIELD = {
+    'provider.google.api': '//maps.google.com/maps/api/js?sensor=false',
+    'provider.google.api_key': os.environ.get('GOOGLE_MAPS_API_KEY'),
+    'provider.google.map.type': 'ROADMAP',
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
